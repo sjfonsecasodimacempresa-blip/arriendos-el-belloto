@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arriendos El Belloto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2f2ef;--card:#fff;--ink:#151515;--mut:#5f5f59;--line:#dcdcd5;--y:#f2c500;--yink:#151515;--chip:#e8e8e2;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121212;--card:#1e1e1c;--ink:#f1f1ec;--mut:#a5a59d;--line:#333330;--chip:#2a2a27}}
+:root[data-theme="dark"]{--bg:#121212;--card:#1e1e1c;--ink:#f1f1ec;--mut:#a5a59d;--line:#333330;--chip:#2a2a27}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 Barlow,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--y);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--y);color:var(--yink);padding:10px 14px 12px}
+h1{margin:0;font:700 26px/1.1 "Barlow Condensed",Arial Narrow,sans-serif}
+.sub{font-size:13px;opacity:.8;margin:2px 0 10px}
+#q{width:100%;border:2px solid var(--yink);border-radius:10px;padding:12px 14px;font:inherit;font-size:17px;background:#fff;color:#151515}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:10px 14px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:0;background:var(--chip);color:var(--ink);padding:9px 14px;border-radius:20px;font:500 15px Barlow,sans-serif}
+.chip[aria-pressed="true"]{background:var(--yink);color:var(--y)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .chip[aria-pressed="true"]{background:var(--y);color:#151515}}
+.bar{display:flex;justify-content:space-between;align-items:center;padding:0 14px 8px;font-size:14px;color:var(--mut)}
+.sw{display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:500}
+.sw input{width:44px;height:26px;accent-color:#151515}
+main{padding:0 14px 30px;display:grid;gap:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.top{display:flex;width:100%;justify-content:space-between;align-items:center;gap:10px;padding:14px;border:0;background:none;color:inherit;text-align:left;font:inherit}
+.nm{font-weight:600;font-size:17px}
+.cat{font-size:13px;color:var(--mut)}
+.pr{text-align:right;white-space:nowrap}
+.pr b{font:700 26px/1 "Barlow Condensed",Arial Narrow,sans-serif}
+.pr small{display:block;font-size:12px;color:var(--mut)}
+.det{display:none;border-top:1px solid var(--line);padding:12px 14px 14px;background:var(--bg)}
+.card.open .det{display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.cell{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.cell span{display:block;font-size:12px;color:var(--mut)}
+.cell b{font-size:17px}
+.calc{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.calc button{width:44px;height:44px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:22px}
+.calc input{width:64px;height:44px;text-align:center;font-size:18px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink)}
+.tot{margin-top:10px;background:var(--y);color:#151515;border-radius:10px;padding:10px 12px}
+.tot b{font:700 28px/1.1 "Barlow Condensed",Arial Narrow,sans-serif}
+.tot small{display:block;font-size:13px}
+.empty{text-align:center;color:var(--mut);padding:30px 10px}
+footer{padding:0 14px 24px;font-size:13px;color:var(--mut)}
+.how{margin:0 14px 12px;background:var(--card);border:1px solid var(--line);border-radius:12px}
+.how summary{padding:13px 14px;font-weight:600;font-size:17px;cursor:pointer}
+.how .bd{padding:0 14px 14px;font-size:15px}
+.how ol{margin:0 0 10px;padding-left:20px}
+.how li{margin-bottom:6px}
+.how p{margin:8px 0 0}
+.imp{background:var(--y);color:#151515;border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:14px}
+.pw{margin-top:12px;font-weight:600;color:var(--ink)}
+</style>
+</head>
+<body>
+<header>
+  <h1>Arriendos El Belloto</h1>
+  <div class="sub">Catálogo de herramientas y maquinarias en arriendo</div>
+  <input id="q" type="search" placeholder="Buscar herramienta (ej.: generador)" autocomplete="off" aria-label="Buscar herramienta">
+</header>
+<div class="chips" id="chips"></div>
+<div class="bar"><span id="count"></span><label class="sw">Dto. 25% socios <input type="checkbox" id="disc" role="switch"></label></div>
+<details class="how"><summary>Cómo arrendar</summary><div class="bd"><ol><li><b>Solo retiro en tienda.</b> Ve al mesón de arriendo de Sodimac El Belloto; no hay despacho a domicilio.</li><li><b>Pide tu cotización con el vendedor en terreno.</b> Toda cotización debe generarse con él antes de arrendar.</li><li>Elige la herramienta, presenta tu cédula de identidad, deja la garantía y firma el contrato de arriendo.</li><li>Devuelve el equipo en las mismas condiciones en que lo arrendaste para recuperar la garantía.</li></ol><p><b>Los precios pueden variar o estar sujetos a cambio.</b></p></div></details>
+<main id="list"></main>
+<footer><div class="imp"><b>Importante:</b> esta app es solo con fin informativo, no es oficial de Sodimac y se utiliza con fines interactivos.</div>Precios según los letreros de la tienda. Muestra qué hay en el catálogo de arriendo, no el stock del día: confirma disponibilidad en el mesón. El 25% aplica a socios Círculo de Especialistas, excepto andamios y subarriendos; la garantía no lleva descuento. Clientes Black: sin garantía en arriendo de herramientas.<div class="pw">Powered by Stiven Fonseca<br>Vendedor Venta Empresa presencial · Sodimac El Belloto</div></footer>
+<script>
+// [nombre, categoría, 4h, 1 día, semana x día, mes x día, garantía]
+var D=[
+["Demoledor 10 KG","Demolición",6698,9290,59828,228534,990990],
+["Demoledor 15 KG / 20 KG","Demolición",9443,12590,81080,309714,1499990],
+["Demoledor 20 KG / 32 KG","Demolición",10335,13780,88743,338988,2199990],
+["Cincelador","Demolición",5243,6990,45016,171954,429990],
+["Cortapavimento 14HP","Demolición",9293,12390,79792,304794,2380000],
+["Placa compactadora 2000KG LFV80","Compactación",null,9790,null,null,1090000],
+["Placa compactadora 2500KG","Compactación",null,12990,null,null,4990000],
+["Vibropisón bencinero 4T 2.8HP","Compactación",null,12190,null,null,2490000],
+["Generador INSO 220V 4,5KW","Generadores",null,14990,null,null,900000],
+["Generador eléctrico INSO 4T 3KW (SKU 328614-2)","Generadores",null,12290,null,null,1990000],
+["Generador eléctrico INSO 4T 2.2KW (SKU 416567-5)","Generadores",null,12990,null,null,990000],
+["Generador aire/cte 66KW KP65","Generadores",null,14790,null,null,760000],
+["Bomba sumergible 2\" PS800","Bombas",null,13990,null,null,940000],
+["Motobomba 3 x 3\"","Bombas",null,null,null,null,null],
+["Desmalezadora 2T","Jardín",7868,10490,67556,258054,511000],
+["Cortasetos","Jardín",4043,5390,34712,132594,500000],
+["Podadora de altura","Jardín",10493,13990,90096,344154,720000],
+["Ahoyadora inalámbrica","Jardín",9368,12490,80436,307254,650000],
+["Máquina c/pasto 4T","Jardín",null,9790,null,null,552000],
+["Barredor pasto sintético MM56","Jardín",null,10990,null,null,740000],
+["Lijadora de banda 3,24","Pisos y lijado",2693,3590,23120,88314,280000],
+["Lijadora de banda 4,24","Pisos y lijado",3443,4590,29560,112914,330000],
+["Lijadora banda 3x21","Pisos y lijado",2843,3790,24408,93234,100000],
+["Orilladora piso madera","Pisos y lijado",6518,8690,55964,213774,1990000],
+["Pulidora a piso","Pisos y lijado",8993,11990,77216,294954,2490000],
+["Lavadora afinadora","Pisos y lijado",8543,11390,73352,280194,700000],
+["Lavadora de alfombra","Pisos y lijado",9818,13090,84300,322014,728000],
+["Alzaprima STD350 3.5MT","Escalas y andamios",143,190,1224,4674,16000],
+["Andamio estándar","Escalas y andamios",1868,2490,16036,61254,525000],
+["Escala tijera fibra 7 peldaños","Escalas y andamios",null,4990,null,null,200000],
+["Escala telescópica fibra 4MT","Escalas y andamios",null,5190,null,null,260000],
+["Trompo eléctrico TVD 130LT","Construcción",null,7990,null,null,690000],
+["Trompo eléctrico 220V TVD150 1,5HP","Construcción",null,8990,null,null,790000],
+["Trompo eléctrico 220V TVL350 1,4KW","Construcción",null,20290,null,null,1990000],
+["Fresadora","Construcción",4718,6290,40508,154734,340000],
+["Compresor 2,0 HP","Construcción",7493,9990,64336,245754,626000],
+["Testiguera DMS240 220V c/pedestal","Construcción",null,23790,null,null,1990000],
+["Alisador de hormigón","Construcción",null,null,null,null,null],
+["Barreno","Construcción",2468,3290,21188,80934,320000],
+["Esmeril 7,0\"","Otros",2393,3190,20544,78474,221000],
+["Esmeril 9,0\"","Otros",2918,3890,25052,95694,221000],
+["Máquina soldar inverter","Otros",6743,8990,57896,221154,790000],
+["Motosoldador","Otros",null,null,null,null,null],
+["Calefactor de patio inox 11K","Otros",null,10090,null,null,230000],
+["Unidad motriz alta frec","Otros",null,4690,null,null,674000]
+];
+var cats=["Todas"].concat(D.map(function(x){return x[1]}).filter(function(c,i,a){return a.indexOf(c)===i}));
+var st={q:"",cat:"Todas",open:-1,days:{}};
+var $=function(i){return document.getElementById(i)};
+function m(n){return n==null?"—":"$"+n.toLocaleString("es-CL")}
+function noDisc(r){return r[0].toLowerCase().indexOf("andamio")>-1}
+function rate(r,d){var t="1 día",v=r[3];if(d>=30&&r[5]!=null){v=r[5];t="tarifa mes"}else if(d>=7&&r[4]!=null){v=r[4];t="tarifa semana"}return{v:v,t:t}}
+function render(){
+  var q=st.q.trim().toLowerCase(),dc=$("disc").checked;
+  var rows=D.map(function(r,i){return{r:r,i:i}}).filter(function(o){
+    return (st.cat==="Todas"||o.r[1]===st.cat)&&o.r[0].toLowerCase().indexOf(q)>-1});
+  $("count").textContent=rows.length+" equipos";
+  $("chips").innerHTML=cats.map(function(c){return '<button class="chip" aria-pressed="'+(c===st.cat)+'" data-c="'+c+'">'+c+'</button>'}).join("");
+  if(!rows.length){$("list").innerHTML='<div class="empty">No hay equipos con ese nombre. Prueba con otra palabra o elige Todas.</div>';return}
+  $("list").innerHTML=rows.map(function(o){
+    var r=o.r,i=o.i,f=(dc&&!noDisc(r))?0.75:1,open=st.open===i;
+    var p=r[3]==null?'<b>Consultar</b>':'<b>'+m(Math.round(r[3]*f))+'</b><small>por día'+(f<1?' con dto.':'')+'</small>';
+    var h='<div class="card'+(open?' open':'')+'"><button class="top" data-i="'+i+'" aria-expanded="'+open+'"><span><span class="nm">'+r[0]+'</span><br><span class="cat">'+r[1]+'</span></span><span class="pr">'+p+'</span></button>';
+    if(open){
+      var d=st.days[i]||1,rt=rate(r,d),unit=rt.v==null?null:Math.round(rt.v*f);
+      h+='<div class="det"><div class="grid">'+
+        '<div class="cell"><span>4 horas</span><b>'+m(r[2]==null?null:Math.round(r[2]*f))+'</b></div>'+
+        '<div class="cell"><span>1 día</span><b>'+m(r[3]==null?null:Math.round(r[3]*f))+'</b></div>'+
+        '<div class="cell"><span>Semana (x día)</span><b>'+m(r[4]==null?null:Math.round(r[4]*f))+'</b></div>'+
+        '<div class="cell"><span>Mes (x día)</span><b>'+m(r[5]==null?null:Math.round(r[5]*f))+'</b></div>'+
+        '<div class="cell" style="grid-column:1/3"><span>Garantía</span><b>'+m(r[6])+'</b></div></div>';
+      if(unit!=null){
+        h+='<div class="calc"><span>Días de arriendo</span><button data-d="-1" data-i="'+i+'" aria-label="Menos un día">−</button><input type="number" min="1" value="'+d+'" data-n="'+i+'" inputmode="numeric" aria-label="Días"><button data-d="1" data-i="'+i+'" aria-label="Más un día">+</button></div>'+
+          '<div class="tot"><b>'+m(unit*d)+'</b><small>'+d+' día'+(d>1?'s':'')+' a '+m(unit)+' por día ('+rt.t+')'+(f<1?', con 25% dto.':'')+' · más garantía '+m(r[6])+'</small></div>';
+      }else h+='<div class="empty">Sin precio en el letrero. Consulta en el mesón de arriendo.</div>';
+      h+='</div>';
+    }
+    return h+'</div>';
+  }).join("");
+}
+$("q").addEventListener("input",function(e){st.q=e.target.value;st.open=-1;render()});
+$("disc").addEventListener("change",render);
+$("chips").addEventListener("click",function(e){var c=e.target.getAttribute("data-c");if(c){st.cat=c;st.open=-1;render()}});
+$("list").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  var dd=b.getAttribute("data-d"),i=+b.getAttribute("data-i");
+  if(dd){st.days[i]=Math.max(1,(st.days[i]||1)+ +dd);render();return}
+  if(b.classList.contains("top")){st.open=(st.open===i)?-1:i;render()}
+});
+$("list").addEventListener("change",function(e){
+  var n=e.target.getAttribute("data-n");if(n!==null){st.days[+n]=Math.max(1,parseInt(e.target.value)||1);render()}
+});
+render();
+</script>
+</body>
+</html>
